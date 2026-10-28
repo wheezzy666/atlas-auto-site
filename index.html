@@ -21,6 +21,21 @@
 @media(max-width:1080px){.hero-grid{gap:30px}.hero h1{font-size:55px}.hero-visual{min-height:440px}.about-grid{gap:38px}}
 @media(max-width:850px){.header{height:75px}.header-in{justify-content:space-between}.burger{display:flex}.nav{position:absolute;top:74px;left:0;right:0;background:white;border-bottom:1px solid var(--line);padding:14px 24px 24px;display:none;flex-direction:column;align-items:stretch;gap:5px;margin-left:0;box-shadow:0 15px 25px #14252612}.nav.open{display:flex}.nav a{padding:12px 10px;font-size:14px}.nav-cta{text-align:center;margin-top:6px}.hero{padding:52px 0 55px}.hero-grid{grid-template-columns:1fr}.hero h1{max-width:650px}.hero-visual{min-height:435px}.trust-in{grid-template-columns:1fr 1fr;gap:12px}.trust-item:last-child{grid-column:span 2}.section{padding:72px 0}.service-grid{grid-template-columns:repeat(2,1fr)}.about-grid{grid-template-columns:1fr}.about-side{position:static}.about-side .section-heading{max-width:550px}.about-nav{display:flex;flex-wrap:wrap;margin-top:18px}.about-nav a{font-size:12px}.steps-grid{grid-template-columns:repeat(2,1fr)}.faq-grid,.contact-grid{grid-template-columns:1fr;gap:28px}}
 @media(max-width:560px){.container{width:min(100% - 32px,1150px)}.brand-text{font-size:18px}.brand-symbol{width:40px;height:40px}.hero h1{font-size:clamp(40px,10.1vw,53px);letter-spacing:-2.3px}.hero-visual{min-height:315px;border-radius:18px}.lead{font-size:14px}.hero-caption{bottom:10px;left:10px;font-size:10px;padding:8px 10px}.trust-in{grid-template-columns:1fr;gap:13px;padding:21px 0}.trust-item:last-child{grid-column:auto}.section{padding:58px 0}.section-head{display:block;margin-bottom:25px}.section-head p{margin-top:15px}.section-head h2,.section-heading{font-size:34px}.service-grid{grid-template-columns:1fr;gap:14px}.service-image{height:205px}.service-card p{min-height:auto}.service-body{padding:19px 21px 22px}.factbox{grid-template-columns:118px 1fr}.factbox dt,.factbox dd{font-size:12px}.about-article .summary{font-size:15px}.article-part h3{font-size:21px}.steps-grid{grid-template-columns:1fr;gap:12px}.step{min-height:auto;padding:22px}.faq-grid h2{font-size:33px}.form-grid{grid-template-columns:1fr}.request-form{padding:20px}.contacts h2{font-size:38px}.footer-in{align-items:flex-start;flex-direction:column;gap:12px}}
+
+/* Fixes: focus, accessible contrast, compact mobile navigation and responsive form */
+:focus-visible,button:focus-visible,a:focus-visible,summary:focus-visible{outline:3px solid #f08d70;outline-offset:3px}
+[hidden]{display:none!important}
+.contacts .btn-outline{background:transparent;color:#fff;border-color:#82908f}
+.contacts .btn-outline:hover,.contacts .btn-outline:focus-visible{background:#fff;color:var(--ink);border-color:#fff}
+.form-actions .btn{min-height:46px}
+.form-status{overflow-wrap:anywhere}
+.message-preview{margin-top:16px;padding:15px;background:#192628;border:1px solid #516060;border-radius:12px}
+.message-preview label{display:block;color:#fff;font-size:12px;font-weight:800;margin-bottom:10px}
+.message-preview textarea{width:100%;resize:vertical;border:1px solid #637371;border-radius:9px;padding:13px;min-height:140px;background:#121e20;color:#eff5f3;font-size:13px;line-height:1.6}
+.message-preview p{color:#bbc9c6;font-size:11px;line-height:1.7;margin:10px 0 0}
+@media(max-width:850px){.nav{max-height:calc(100vh - 75px);max-height:calc(100dvh - 75px);overflow-y:auto;overscroll-behavior:contain}.nav.open{padding-bottom:24px}}
+@media(max-width:560px){.form-actions .btn{flex:1 1 auto}}
+@media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}.btn,.service-card,.service-image img{transition:none!important}}
 </style>
 </head>
 <body>
@@ -85,23 +100,125 @@
 <div class="field"><label for="carModel">Автомобиль <span aria-hidden="true">*</span></label><input id="carModel" name="carModel" type="text" maxlength="100" required placeholder="Например, BMW 520i, 2019"></div>
 <div class="field"><label for="workType">Нужная услуга</label><select id="workType" name="workType"><option>Нужна консультация</option><option>Диагностика</option><option>Плановое ТО</option><option>Двигатель и трансмиссия</option><option>Подвеска и рулевое</option><option>Автоэлектрика</option><option>Тормозная система</option></select></div>
 <div class="field full"><label for="carProblem">Описание проблемы <span aria-hidden="true">*</span></label><textarea id="carProblem" name="carProblem" maxlength="2000" required placeholder="Что произошло, когда появились симптомы"></textarea></div>
-</div><div class="form-actions"><button class="btn" type="submit">Скопировать обращение <span aria-hidden="true">↗</span></button><button class="btn btn-outline" type="button" id="shareRequest" style="color:white;border-color:#586567">Поделиться</button></div><div id="formStatus" class="form-status" role="status" aria-live="polite"></div><div class="form-disclosure">Данные остаются на вашем устройстве до момента копирования или отправки через выбранное вами приложение.</div></form>
+</div><div class="form-actions"><button class="btn" type="submit">Скопировать обращение <span aria-hidden="true">↗</span></button><button class="btn btn-outline" type="button" id="shareRequest">Поделиться</button></div><div id="formStatus" class="form-status" role="status" aria-live="polite"></div>
+<div class="message-preview" id="messagePreview" hidden>
+<label for="messageText">Текст обращения</label>
+<textarea id="messageText" readonly rows="7" aria-label="Текст обращения, который можно скопировать вручную"></textarea>
+<p>Сообщение не отправляется автоматически. Вставьте его в удобный мессенджер или передайте сотруднику СТО.</p>
+</div><div class="form-disclosure">Сайт не сохраняет и не отправляет введённые данные на сервер. Вы сами выбираете, кому передать обращение.</div></form>
 </div></section>
 </main>
 <footer class="footer"><div class="container footer-in"><div><strong>АТЛАС</strong> · Автосервис BMW и Mercedes-Benz</div><div>© <span id="year"></span> АТЛАС. Информация об услугах СТО.</div><a href="#top">Наверх ↑</a></div></footer>
 <script>
-(()=>{'use strict';
-const toggle=document.getElementById('menuToggle');const nav=document.getElementById('siteNav');
-const closeMenu=()=>{nav.classList.remove('open');document.body.classList.remove('menu-open');toggle.setAttribute('aria-expanded','false');toggle.setAttribute('aria-label','Открыть меню');toggle.textContent='☰'};
-toggle.addEventListener('click',()=>{const open=!nav.classList.contains('open');nav.classList.toggle('open',open);document.body.classList.toggle('menu-open',open&&window.innerWidth<851);toggle.setAttribute('aria-expanded',String(open));toggle.setAttribute('aria-label',open?'Закрыть меню':'Открыть меню');toggle.textContent=open?'×':'☰'});
-nav.querySelectorAll('a').forEach(a=>a.addEventListener('click',closeMenu));document.addEventListener('keydown',e=>{if(e.key==='Escape')closeMenu()});window.addEventListener('resize',()=>{if(window.innerWidth>850)closeMenu()});
-document.getElementById('year').textContent=new Date().getFullYear();
-if('IntersectionObserver' in window&&!matchMedia('(prefers-reduced-motion: reduce)').matches){const elements=[...document.querySelectorAll('.reveal')];const ob=new IntersectionObserver((es,o)=>{es.forEach(e=>{if(e.isIntersecting){e.target.classList.add('visible');o.unobserve(e.target)}})},{threshold:0.09,rootMargin:'0px 0px 50px 0px'});elements.forEach(e=>ob.observe(e));document.documentElement.classList.add('has-reveal')}
-const form=document.getElementById('requestForm');const status=document.getElementById('formStatus');
-function compose(){if(!form.reportValidity())return null;const v=id=>document.getElementById(id).value.trim();const lines=['Обращение в автосервис «АТЛАС»','Автомобиль: '+v('carModel'),'Услуга: '+v('workType'),'Описание: '+v('carProblem')];if(v('clientName'))lines.push('Имя: '+v('clientName'));if(v('clientPhone'))lines.push('Контактный номер: '+v('clientPhone'));return lines.join('\n')}
-async function copyText(t){if(navigator.clipboard&&window.isSecureContext){try{await navigator.clipboard.writeText(t);return true}catch(e){}}const ta=document.createElement('textarea');ta.value=t;ta.style.cssText='position:fixed;left:-9999px;top:0';document.body.appendChild(ta);ta.focus();ta.select();let ok=false;try{ok=document.execCommand('copy')}catch(e){}ta.remove();return ok}
-form.addEventListener('submit',async e=>{e.preventDefault();const msg=compose();if(!msg)return;const ok=await copyText(msg);status.textContent=ok?'Текст обращения скопирован. Отправьте его выбранным вами способом.':'Не удалось скопировать автоматически. Выделите текст обращения ниже и скопируйте вручную.';if(!ok){const t=document.createElement('textarea');t.readOnly=true;t.value=msg;t.setAttribute('aria-label','Текст обращения для ручного копирования');t.style.cssText='margin-top:12px;width:100%;min-height:120px;padding:12px';status.replaceChildren(document.createTextNode('Текст для копирования:'),t);t.focus();t.select()}});
-document.getElementById('shareRequest').addEventListener('click',async()=>{const msg=compose();if(!msg)return;if(navigator.share){try{await navigator.share({title:'Обращение в СТО',text:msg});status.textContent='Выберите приложение, чтобы отправить обращение.';return}catch(e){if(e.name==='AbortError')return}}const ok=await copyText(msg);status.textContent=ok?'Текст скопирован — отправьте его в удобный мессенджер.':'Используйте кнопку «Скопировать обращение».'});
+(() => {
+  'use strict';
+  const toggle=document.getElementById('menuToggle');
+  const nav=document.getElementById('siteNav');
+  const form=document.getElementById('requestForm');
+  const status=document.getElementById('formStatus');
+  const preview=document.getElementById('messagePreview');
+  const messageText=document.getElementById('messageText');
+  const shareBtn=document.getElementById('shareRequest');
+
+  function closeMenu(restoreFocus=false){
+    const wasOpen=nav.classList.contains('open');
+    nav.classList.remove('open');
+    document.body.classList.remove('menu-open');
+    toggle.setAttribute('aria-expanded','false');
+    toggle.setAttribute('aria-label','Открыть меню');
+    toggle.textContent='☰';
+    if(restoreFocus && wasOpen)toggle.focus();
+  }
+  toggle.addEventListener('click',()=>{
+    const open=!nav.classList.contains('open');
+    if(!open){closeMenu();return}
+    nav.classList.add('open');
+    document.body.classList.toggle('menu-open',window.innerWidth<=850);
+    toggle.setAttribute('aria-expanded','true');
+    toggle.setAttribute('aria-label','Закрыть меню');
+    toggle.textContent='×';
+  });
+  nav.querySelectorAll('a').forEach(a=>a.addEventListener('click',()=>closeMenu()));
+  document.addEventListener('keydown',e=>{if(e.key==='Escape')closeMenu(true)});
+  document.addEventListener('pointerdown',e=>{if(nav.classList.contains('open')&&!nav.contains(e.target)&&e.target!==toggle)closeMenu()});
+  window.addEventListener('resize',()=>{if(window.innerWidth>850)closeMenu()});
+  window.addEventListener('hashchange',()=>closeMenu());
+  const year=document.getElementById('year');
+  if(year)year.textContent=String(new Date().getFullYear());
+
+  const reveals=[...document.querySelectorAll('.reveal')];
+  const reduced=window.matchMedia&&window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  if(reveals.length&&!reduced){
+    const ensureVisible=()=>{
+      for(const el of reveals)if(el.getBoundingClientRect().top<window.innerHeight+70)el.classList.add('visible');
+    };
+    if('IntersectionObserver' in window){
+      const observer=new IntersectionObserver((entries,obs)=>{
+        entries.forEach(e=>{if(e.isIntersecting){e.target.classList.add('visible');obs.unobserve(e.target)}});
+      },{threshold:0,rootMargin:'0px 0px 110px 0px'});
+      reveals.forEach(el=>observer.observe(el));
+    }
+    document.documentElement.classList.add('has-reveal');
+    ensureVisible();
+    let scheduled=false;
+    window.addEventListener('scroll',()=>{
+      if(scheduled)return;
+      scheduled=true;
+      requestAnimationFrame(()=>{ensureVisible();scheduled=false});
+    },{passive:true});
+    window.addEventListener('resize',ensureVisible,{passive:true});
+  }
+
+  function compose(){
+    if(!form.reportValidity())return null;
+    const v=id=>document.getElementById(id).value.trim();
+    const model=v('carModel'),problem=v('carProblem');
+    if(!model||!problem)return null;
+    const lines=['Обращение в автосервис «АТЛАС»',
+      'Автомобиль: '+model,
+      'Услуга: '+v('workType'),
+      'Описание: '+problem];
+    if(v('clientName'))lines.push('Имя: '+v('clientName'));
+    if(v('clientPhone'))lines.push('Контактный номер: '+v('clientPhone'));
+    return lines.join('\n');
+  }
+  async function copyText(t){
+    if(navigator.clipboard&&window.isSecureContext){
+      try{await navigator.clipboard.writeText(t);return true}catch(err){}
+    }
+    const ta=document.createElement('textarea');
+    ta.value=t;ta.style.cssText='position:fixed;left:-9999px;top:0';
+    document.body.appendChild(ta);ta.focus();ta.select();
+    let ok=false;try{ok=document.execCommand('copy')}catch(err){}
+    ta.remove();return ok;
+  }
+  function showMessage(msg){messageText.value=msg;preview.hidden=false}
+  const clearOutdated=()=>{status.textContent='';preview.hidden=true};
+  form.addEventListener('input',clearOutdated);
+  form.addEventListener('change',clearOutdated);
+  form.addEventListener('submit',async e=>{
+    e.preventDefault();const msg=compose();if(!msg)return;
+    showMessage(msg);
+    const ok=await copyText(msg);
+    status.textContent=ok
+      ? 'Обращение скопировано. Вставьте текст в удобный мессенджер.'
+      : 'Автоматическое копирование недоступно. Выделите и скопируйте текст ниже.';
+    if(!ok){messageText.focus();messageText.select()}
+  });
+  shareBtn.addEventListener('click',async()=>{
+    const msg=compose();if(!msg)return;
+    showMessage(msg);
+    if(navigator.share){
+      try{await navigator.share({title:'Обращение в СТО',text:msg});
+        status.textContent='Выбранное приложение получило текст обращения.';return
+      }catch(e){if(e&&e.name==='AbortError'){status.textContent='Отправка отменена. Текст обращения доступен ниже.';return}}
+    }
+    const ok=await copyText(msg);
+    status.textContent=ok
+      ? 'Обращение скопировано. Вставьте его в мессенджер.'
+      : 'Поделиться напрямую не удалось. Скопируйте текст из поля ниже.';
+    if(!ok){messageText.focus();messageText.select()}
+  });
 })();
 </script>
 </body>
